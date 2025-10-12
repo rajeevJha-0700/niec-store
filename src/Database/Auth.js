@@ -8,18 +8,20 @@ class AuthService {
     password: password,
   });
   
-  if(!error){
+  if(data){
     const u_id = data.user.id;
-    const {error} = await master.from("carts").insert([{cart_id:u_id}]);
-    if(error){
-      console.error("cart can't be created ...",error);
-      return 
+    console.log("uid is ",u_id)
+    const{error} = await master.from("users").insert([{id:u_id,name:name,email:email,phone:phone,password:password}])
+    if(!error){
+      const {error} = await master.from("carts").insert([{cart_id:u_id}]);
+      if(error){
+        console.log("cartERR...",error);
+      }
     }
-      return await master.from("users").insert([{id:u_id,name:name,email:email,phone:phone,password:password}])
-
+    return data 
   }else{
     console.error("user can't be created : ",error);
-    return ;
+    return error;
   }
    } catch (error) {
     console.error("user can't be created : ",error)
