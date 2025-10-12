@@ -70,8 +70,11 @@ const router = createBrowserRouter([
         },
         {
             path: "/cart",
-            
-            element: <Cart />,
+            element:(
+            <Protected authentication ={true}>
+                <Cart />
+             </Protected>
+            )
         },
         {
           path: "/sellerInfo/:slug",
