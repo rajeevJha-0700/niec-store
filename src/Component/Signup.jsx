@@ -17,7 +17,6 @@ import { useState } from "react";
     try {
       setError("");
       const session = await Auth.signUpNewUser({...data});
-      
       if (session) {
         const userData = await Auth.getCurrentUser();
         if (userData) dispatch(login(userData));
