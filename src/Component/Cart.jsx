@@ -15,7 +15,7 @@ function Cart() {
       try {
         setIsLoading(true);
         const val = await cart.getTheUserCart(u_id);
-        setCART(val || []);
+        setCART(val[0].user_cart || []);
       } catch (err) {
         console.error("(ERR:", err, ")");
       } finally {

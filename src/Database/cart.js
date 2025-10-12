@@ -4,8 +4,7 @@ class Cart {
   addInUserCart = async(u_id,productDetail={})=>{
     try {
 
-        const { data:existingData, error } = await master.from('carts').select("user_cart").eq("cart_id",u_id);
-        
+        const { data:existingData, error } = await master.from('carts').select("*").eq("cart_id",u_id);
         if(error){
             console.error("cannot be added in cart(.2):",error)
         }
@@ -13,32 +12,32 @@ class Cart {
         
         currentArray.push(productDetail); 
         
-        const {error: updateError } = await master
+        const {data,error: updateError } = await master
           .from('carts')
-          .update({ user_cart: currentArray })
+          .update({"user_cart": currentArray })
           .eq('cart_id', u_id);
           if (updateError) {
               console.error('Error updating array:', updateError);
+             
             }
+            
     } catch (error) {
-       console.log("cannot be added in cart(.1):",error) 
-    }
+       console.error("cannot be added in cart(.1):",error) ;
+      }
   };
 
   removeFromUserCart = async(u_id,productDetail = {})=>{
     try {
        const { data: existingData, error: fetchError } = await master
       .from("carts")
-      .select("user_cart")
+      .select("*")
       .eq("cart_id", u_id)
-      .single();
 
     if (fetchError) {
       console.error("Error fetching cart:", fetchError);
       return;
     }
-
-    let currentArray = existingData?.user_cart || [];
+    let currentArray = existingData[0]?.user_cart || [];
 
     
     const updatedArray = currentArray.filter(
@@ -55,16 +54,16 @@ class Cart {
       console.error("Error updating cart:", updateError);
     } 
     } catch (error) {
-        console.log("cannot be removed from cart(.1):",error)  
+        console.error("cannot be removed from cart(.1):",error)  
     }
   }
 
   getTheUserCart = async (u_id)=>{
-        const { data:existingData, error } = await master.from('carts').select("user_cart").eq("cart_id",u_id);
+        const { data:existingData, error } = await master.from('carts').select("*").eq("cart_id",u_id);
         if(error){
-            console.log("can't fetch cart at this moment",error);
+            console.error("can't fetch cart at this moment",error);
         }
-        return existingData[0].user_cart
+        return existingData
   }
 };
 

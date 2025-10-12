@@ -50,6 +50,7 @@ function Product() {
   async function handleAdd() {
     dispatch(addToCart(id));
     await cart.addInUserCart(u_id, productData);
+   
   }
 
   async function handleRemove() {
