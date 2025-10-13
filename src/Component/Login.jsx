@@ -18,11 +18,15 @@ function Login() {
     try {
       setError("");
       setIsLoading(true);
-      const session = await Auth.signIn(data);
-      if (session) {
+      
+      const session = await Auth.signIn({...data});
+      
+      if (session.data.session) {
         const userData = await Auth.getCurrentUser();
         if (userData) dispatch(login(userData));
         navigate("/");
+      }else{
+        setError("you are not registered, please signup")
       }
     } catch (error) {
       console.error("Error while login (ERR:LN1): ", error);

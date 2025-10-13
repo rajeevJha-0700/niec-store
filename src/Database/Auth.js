@@ -43,6 +43,7 @@ class AuthService {
  getCurrentUser = async ()=>{
     try {
         const {data,error} = await master.auth.getUser();
+        console.log("data is : ",data)
          if (error) {
           return {
             data: null,
