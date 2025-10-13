@@ -10,7 +10,6 @@ class AuthService {
   
   if(data){
     const u_id = data.user.id;
-    console.log("uid is ",u_id)
     const{error} = await master.from("users").insert([{id:u_id,name:name,email:email,phone:phone,password:password}])
     if(!error){
       const {error} = await master.from("carts").insert([{cart_id:u_id}]);
@@ -43,7 +42,7 @@ class AuthService {
  getCurrentUser = async ()=>{
     try {
         const {data,error} = await master.auth.getUser();
-        console.log("data is : ",data)
+       
          if (error) {
           return {
             data: null,
