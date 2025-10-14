@@ -37,6 +37,20 @@ function SellerInfo() {
     fetchSellerProducts();
   }, [slug]);
 
+   const buildWhatsAppLink = (phone, message = "") => {
+    if (!phone) return null;
+    // remove non-digit chars
+    const digits = phone.replace(/\D/g, "");
+    // if 10 digits assume India and prepend 91, otherwise use digits as-is
+    const normalized = digits.length === 10 ? `91${digits}` : digits;
+    if (!normalized) return null;
+    const encodedMsg = encodeURIComponent(message);
+    // use wa.me short link (works for web and mobile)
+    return encodedMsg
+      ? `https://wa.me/${normalized}?text=${encodedMsg}`
+      : `https://wa.me/${normalized}`;
+  };
+
   return (
     <div className="container mx-auto px-4 py-16 min-h-[calc(100vh-12rem)]">
       <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-800 text-center mb-8">
@@ -48,7 +62,6 @@ function SellerInfo() {
         </div>
       ) : (
         <>
-          {/* Seller Info Section */}
           <div className="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 mb-12">
             <h3 className="text-xl font-serif font-semibold text-gray-800 mb-4">
               {sellerInfo.name || "Unknown Seller"}
@@ -86,7 +99,24 @@ function SellerInfo() {
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
-                <span>Phone: +91 {sellerInfo.phone || "N/A"}</span>
+                 <a
+                    href={buildWhatsAppLink(sellerInfo.phone,"product enquiry : ")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 underline text-indigo-600 hover:text-indigo-800"
+                    aria-label={`Message ${sellerInfo.name || "seller"} on WhatsApp`}
+                  >
+                    <span>Phone: +91 {sellerInfo.phone}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3l7 7m0 0v7a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2h7" />
+                    </svg>
+                  </a>
               </p>
             </div>
           </div>
