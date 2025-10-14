@@ -123,7 +123,7 @@ import { useState } from "react";
                 <Input
                   id="phone"
                   type="text"
-                  placeholder="Enter your phone"
+                  placeholder="enter your whatsapp number"
                   {...register("phone", {
                     required: "phone is required",
                     pattern: {
