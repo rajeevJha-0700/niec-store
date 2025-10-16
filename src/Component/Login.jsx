@@ -25,8 +25,8 @@ function Login() {
         const userData = await Auth.getCurrentUser();
         if (userData) dispatch(login(userData));
         navigate("/");
-      }else{
-        setError("you are not registered, please signup")
+      } else {
+        setError("You are not registered, please signup");
       }
     } catch (error) {
       console.error("Error while login (ERR:LN1): ", error);
@@ -37,17 +37,17 @@ function Login() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 min-h-[calc(100vh-12rem)] flex items-center justify-center bg-gradient-to-br from-indigo-100 via-white to-blue-100">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
+    <div className="container mx-auto px-4 py-12 min-h-[calc(100vh-12rem)] flex items-center justify-center bg-gradient-to-br from-white to-red-50">
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl border border-red-100">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 tracking-tight">
             Welcome Back
           </h2>
           <p className="mt-2 text-sm text-gray-500">
             Don&apos;t have an account?{" "}
             <Link
               to="/signup"
-              className="font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-300"
+              className="font-semibold text-red-600 hover:text-red-700 hover:underline transition-all duration-300"
             >
               Sign up now
             </Link>
@@ -80,12 +80,12 @@ function Login() {
                   message: "Invalid email format",
                 },
               })}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
                 errors.email ? "border-red-400" : "border-gray-200"
               } bg-gray-50 text-gray-900 placeholder-gray-400 focus:shadow-md`}
             />
             {errors.email && (
-              <p className="mt-1 text-sm text-red-500 font-medium animate-fade-in">
+              <p className="mt-1 text-sm text-red-500 font-medium animate-pulse">
                 {errors.email.message}
               </p>
             )}
@@ -110,12 +110,12 @@ function Login() {
                   message: "Password must be at least 6 characters",
                 },
               })}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
                 errors.password ? "border-red-400" : "border-gray-200"
               } bg-gray-50 text-gray-900 placeholder-gray-400 focus:shadow-md`}
             />
             {errors.password && (
-              <p className="mt-1 text-sm text-red-500 font-medium animate-fade-in">
+              <p className="mt-1 text-sm text-red-500 font-medium animate-pulse">
                 {errors.password.message}
               </p>
             )}
@@ -128,8 +128,8 @@ function Login() {
             disabled={isLoading}
             className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition-all duration-300 ${
               isLoading
-                ? "bg-indigo-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                ? "bg-red-400 cursor-not-allowed"
+                : "bg-red-500 hover:bg-red-600 hover:scale-105 focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             } flex items-center justify-center gap-2`}
           >
             {isLoading && (

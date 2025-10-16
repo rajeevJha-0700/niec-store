@@ -1,9 +1,9 @@
 import { master } from "./Master.js";
 
 class Warehouse {
-   contributeToStore = async ({productName,price,seller_id,imageUrl,description})=>{
+   contributeToStore = async ({productName,price,seller_id,imageUrl,description,category})=>{
     try {
-        return await master.from("products").insert([{productName:productName,price:price,seller_id:seller_id,imageUrl:imageUrl,description:description}]);
+        return await master.from("products").insert([{productName:productName,price:price,seller_id:seller_id,imageUrl:imageUrl,description:description,category:category}]);
     } catch (error) {
         console.error("error in product contribution(wJS)....",error)
     }
@@ -35,11 +35,11 @@ class Warehouse {
     }
    }
 
-   updateInProduct = async({productName,price,pid,imageUrl,description})=>{
+   updateInProduct = async({productName,price,pid,imageUrl,description,category})=>{
     try {
         return await master
                 .from('products')
-                .update([{productName:productName,price:price,imageUrl:imageUrl,description:description}])
+                .update([{productName:productName,price:price,imageUrl:imageUrl,description:description,category:category}])
                 .eq('pid', pid)
                 
     } catch (error) {

@@ -1,4 +1,4 @@
-
+import logo from "../assets/file.svg";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -22,53 +22,59 @@ function Header() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-lg sticky top-0 z-50 text-white">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <nav className="bg-white shadow-lg sticky top-0 z-50 transition-all duration-300">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between transition-all duration-300">
         {/* Logo */}
-        <div className="text-2xl font-bold">
-          <button onClick={() => navigate("/")} className="font-serif hover:opacity-80 transition-opacity duration-200">
-            niec-store
+        <div className="flex items-center space-x-2">
+          <button onClick={() => navigate("/")} className="flex items-center hover:opacity-80 transition-all duration-300 transform hover:scale-105">
+           <div className="relative inline-flex items-center text-base sm:text-lg md:text-xl lg:text-2xl font-serif font-bold tracking-tight transition-all duration-300 group">
+              <span className="px-0 py-1.5 text-red-600 transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:drop-shadow-[0_1px_3px_rgba(239,68,68,0.3)]">
+                NEVER
+              </span>
+              <span className="px-0 py-1.5 text-gray-900 transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:drop-shadow-[0_1px_3px_rgba(0,0,0,0.2)]">
+                OLD
+              </span>
+           </div>
           </button>
         </div>
 
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex items-center space-x-6">
+        <ul className="hidden md:flex items-center space-x-4">
           {NavigationItems.map((item) =>
             item.presentOrNot ? (
               <li key={item.btn}>
                 <button
                   onClick={() => navigate(item.path)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
-                    isActive(item.path) ? "bg-white text-indigo-600 font-semibold shadow-md" : "hover:bg-white hover:text-indigo-600"
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out ${
+                    isActive(item.path)
+                      ? "bg-red-100 text-red-600 font-semibold shadow-sm transform scale-105"
+                      : "text-gray-700 hover:bg-red-50 hover:text-red-600 hover:shadow-sm hover:scale-105"
                   }`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-5 h-5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
                   </svg>
-                  <span className="capitalize">{item.btn}</span>
+                  <span className="capitalize transition-all duration-300">{item.btn}</span>
                 </button>
               </li>
             ) : null
           )}
           {authStatus && (
             <li>
-              <Logout className="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-white hover:text-indigo-600 transition-all duration-300" />
+              <Logout
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-300 ease-in-out hover:shadow-sm hover:scale-105"
+              />
             </li>
           )}
         </ul>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden hover:opacity-80 transition-opacity duration-200"
+          className="md:hidden text-gray-700 hover:text-red-600 transition-all duration-300 ease-in-out transform hover:scale-110"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg className="w-6 h-6 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -82,10 +88,10 @@ function Header() {
       {/* Mobile Menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-          isMobileMenuOpen ? "max-h-screen" : "max-h-0"
+          isMobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         } bg-white shadow-md`}
       >
-        <ul className="container mx-auto px-4 py-4 flex flex-col space-y-4 text-gray-800">
+        <ul className="container mx-auto px-4 py-4 flex flex-col space-y-3">
           {NavigationItems.map((item) =>
             item.presentOrNot ? (
               <li key={item.btn}>
@@ -94,21 +100,23 @@ function Header() {
                     navigate(item.path);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-md w-full text-left transition-all duration-300 ${
-                    isActive(item.path) ? "bg-indigo-100 text-indigo-600 font-semibold" : "hover:bg-indigo-100"
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium w-full text-left transition-all duration-300 ease-in-out ${
+                    isActive(item.path) ? "bg-red-100 text-red-600 font-semibold transform scale-105" : "text-gray-700 hover:bg-red-50 hover:text-red-600 hover:scale-105"
                   }`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-5 h-5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
                   </svg>
-                  <span className="capitalize">{item.btn}</span>
+                  <span className="capitalize transition-all duration-300">{item.btn}</span>
                 </button>
               </li>
             ) : null
           )}
           {authStatus && (
             <li>
-              <Logout className="flex items-center space-x-2 px-4 py-2 rounded-md w-full text-left hover:bg-indigo-100 transition-all duration-300" />
+              <Logout
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium w-full text-left text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-300 ease-in-out hover:scale-105"
+              />
             </li>
           )}
         </ul>

@@ -14,6 +14,7 @@ function PushProduct({ ProductObject }) {
       description: ProductObject?.description || "",
       price: ProductObject?.price || "",
       imageUrl: ProductObject?.imageUrl || "",
+      category: ProductObject?.category || "Stationary",
     },
   });
 
@@ -24,7 +25,6 @@ function PushProduct({ ProductObject }) {
     try {
       const fileName = data.image[0]?.name + "-" + Date.now();
       if (ProductObject && Object.keys(ProductObject).length > 0) {
-        // Update existing product
         console.log("Updation initiated");
         const response = await warehouse.uploadFile(fileName, data.image[0]);
         if (response) {
@@ -36,6 +36,7 @@ function PushProduct({ ProductObject }) {
             pid: id,
             imageUrl: publicUrl,
             description: data.description,
+            category: data.category,
           });
           if (error) {
             console.error("Problem while updating the product (ERR): ", error);
@@ -46,14 +47,16 @@ function PushProduct({ ProductObject }) {
           console.warn("DB RESPONSE FAILED");
         }
       } else {
-        // Add new product
         const response = await warehouse.uploadFile(fileName, data.image[0]);
         if (response) {
           const { data: publicUrlData } = warehouse.getPublicUrl(fileName);
           const publicUrl = publicUrlData.publicUrl;
           const { error } = await warehouse.contributeToStore({
-            ...data,
+            productName: data.productName,
+            price: data.price,
             imageUrl: publicUrl,
+            description: data.description,
+            category: data.category,
             seller_id: u_id,
           });
           if (error) {
@@ -73,9 +76,9 @@ function PushProduct({ ProductObject }) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 min-h-[calc(100vh-12rem)]">
-      <div className="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">
+    <div className="container mx-auto px-4 py-12 min-h-[calc(100vh-12rem)] bg-gradient-to-br from-white to-red-100">
+      <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-red-200 transition-all duration-300 hover:shadow-2xl">
+        <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 text-center mb-8 tracking-tight">
           {ProductObject && Object.keys(ProductObject).length > 0
             ? "Update Product"
             : "Add New Product"}
@@ -100,13 +103,60 @@ function PushProduct({ ProductObject }) {
                   message: "Only letters, numbers, spaces, and hyphens allowed",
                 },
               })}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 ease-in-out focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
                 errors.productName ? "border-red-400" : "border-gray-200"
-              } bg-gray-50 text-gray-900 placeholder-gray-400`}
+              } bg-gray-50 text-gray-900 placeholder-gray-400 focus:shadow-md hover:border-red-300`}
             />
             {errors.productName && (
-              <p className="mt-2 text-sm text-red-500 font-medium animate-fade-in">
+              <p className="mt-2 text-sm text-red-500 font-medium animate-pulse">
                 {errors.productName.message}
+              </p>
+            )}
+          </div>
+
+          {/* Category Dropdown */}
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Category
+            </label>
+            <div className="relative">
+              <select
+                id="category"
+                {...register("category", {
+                  required: "Category is required",
+                })}
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 appearance-none bg-gray-50 text-gray-900 placeholder-gray-400 hover:border-red-300 ${
+                  errors.category ? "border-red-400" : "border-gray-200"
+                } focus:shadow-md bg-gradient-to-r from-white to-red-50 pr-10`}
+              >
+                <option value="Stationary">Stationary</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Akash">Akash</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg
+                  className="w-5 h-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
+            </div>
+            {errors.category && (
+              <p className="mt-2 text-sm text-red-500 font-medium animate-pulse">
+                {errors.category.message}
               </p>
             )}
           </div>
@@ -129,12 +179,12 @@ function PushProduct({ ProductObject }) {
                   message: "Description cannot exceed 200 characters",
                 },
               })}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 ease-in-out focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
                 errors.description ? "border-red-400" : "border-gray-200"
-              } bg-gray-50 text-gray-900 placeholder-gray-400 resize-y min-h-[100px]`}
+              } bg-gray-50 text-gray-900 placeholder-gray-400 focus:shadow-md hover:border-red-300 resize-y min-h-[100px]`}
             />
             {errors.description && (
-              <p className="mt-2 text-sm text-red-500 font-medium animate-fade-in">
+              <p className="mt-2 text-sm text-red-500 font-medium animate-pulse">
                 {errors.description.message}
               </p>
             )}
@@ -163,12 +213,12 @@ function PushProduct({ ProductObject }) {
                   message: "Price cannot exceed ₹99,999",
                 },
               })}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 ease-in-out focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
                 errors.price ? "border-red-400" : "border-gray-200"
-              } bg-gray-50 text-gray-900 placeholder-gray-400`}
+              } bg-gray-50 text-gray-900 placeholder-gray-400 focus:shadow-md hover:border-red-300`}
             />
             {errors.price && (
-              <p className="mt-2 text-sm text-red-500 font-medium animate-fade-in">
+              <p className="mt-2 text-sm text-red-500 font-medium animate-pulse">
                 {errors.price.message}
               </p>
             )}
@@ -189,12 +239,12 @@ function PushProduct({ ProductObject }) {
               {...register("image", {
                 required: "Image is required",
               })}
-              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 ease-in-out focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
                 errors.image ? "border-red-400" : "border-gray-200"
-              } bg-gray-50 text-gray-900 placeholder-gray-400`}
+              } bg-gray-50 text-gray-900 placeholder-gray-400 focus:shadow-md hover:border-red-300`}
             />
             {errors.image && (
-              <p className="mt-2 text-sm text-red-500 font-medium animate-fade-in">
+              <p className="mt-2 text-sm text-red-500 font-medium animate-pulse">
                 {errors.image.message}
               </p>
             )}
@@ -204,8 +254,8 @@ function PushProduct({ ProductObject }) {
           <Button
             type="submit"
             className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition-all duration-300 ${
-              ProductObject ? "bg-green-600 hover:bg-green-700 hover:scale-105" : "bg-indigo-600 hover:bg-indigo-700 hover:scale-105"
-            }`}
+              ProductObject ? "bg-green-600 hover:bg-green-700 hover:scale-105" : "bg-red-500 hover:bg-red-600 hover:scale-105"
+            } focus:ring-2 focus:ring-offset-2 focus:ring-red-500 shadow-md hover:shadow-lg`}
             assign={ProductObject && Object.keys(ProductObject).length > 0 ? "Update" : "Submit"}
           />
         </form>

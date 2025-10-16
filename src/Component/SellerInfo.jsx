@@ -55,27 +55,27 @@ function SellerInfo() {
     const normalized = digits.length === 10 ? `+91${digits}` : digits;
     navigator.clipboard.writeText(normalized).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     });
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 min-h-[calc(100vh-12rem)] bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+    <div className="container mx-auto px-4 py-12 min-h-[calc(100vh-12rem)] bg-gradient-to-br from-white to-red-100">
       <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 text-center mb-10 tracking-tight">
         Seller Profile
       </h2>
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-indigo-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-500"></div>
         </div>
       ) : (
         <>
           {/* Seller Info Section */}
-          <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl p-8 mb-12 relative overflow-hidden border border-indigo-100 transition-all duration-300 hover:shadow-2xl">
-            <div className="absolute inset-0 border-4 border-transparent bg-gradient-to-r from-indigo-200 to-blue-200 opacity-50 rounded-2xl pointer-events-none"></div>
+          <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl p-8 mb-12 relative overflow-hidden border border-red-200 transition-all duration-300 hover:shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-red-100 opacity-30 rounded-2xl pointer-events-none"></div>
             <div className="relative z-10">
               <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-3xl font-bold text-indigo-600">
+                <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center text-3xl font-bold text-red-600 border-2 border-red-200">
                   {sellerInfo.name ? sellerInfo.name[0].toUpperCase() : "S"}
                 </div>
               </div>
@@ -87,11 +87,11 @@ function SellerInfo() {
                 {sellerInfo.email ? (
                   <a
                     href={`mailto:${sellerInfo.email}`}
-                    className="flex items-center justify-center gap-3 bg-indigo-50 text-indigo-700 px-6 py-3 rounded-lg font-medium hover:bg-indigo-100 hover:scale-105 transition-all duration-300 shadow-sm"
+                    className="flex items-center justify-center gap-3 bg-red-50 text-red-700 px-6 py-3 rounded-lg font-medium hover:bg-red-100 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                     aria-label={`Email ${sellerInfo.name || "seller"}`}
                   >
                     <svg
-                      className="w-6 h-6 text-indigo-600"
+                      className="w-6 h-6 text-red-600"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -132,11 +132,11 @@ function SellerInfo() {
                       href={buildWhatsAppLink(sellerInfo.phone, "Product Enquiry: ")}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-3 bg-green-50 text-green-700 px-6 py-3 rounded-lg font-medium hover:bg-green-100 hover:scale-105 transition-all duration-300 shadow-sm"
+                      className="flex-1 flex items-center justify-center gap-3 bg-red-50 text-red-700 px-6 py-3 rounded-lg font-medium hover:bg-red-100 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       aria-label={`Message ${sellerInfo.name || "seller"} on WhatsApp`}
                     >
                       <svg
-                        className="w-6 h-6 text-green-600"
+                        className="w-6 h-6 text-red-600"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -151,7 +151,7 @@ function SellerInfo() {
                       </svg>
                       <span>+91 {sellerInfo.phone}</span>
                       <svg
-                        className="w-5 h-5 text-green-600"
+                        className="w-5 h-5 text-red-600"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +161,7 @@ function SellerInfo() {
                     </a>
                     <button
                       onClick={() => handleCopyPhone(sellerInfo.phone)}
-                      className="bg-green-100 text-green-700 p-3 rounded-lg hover:bg-green-200 hover:scale-105 transition-all duration-300 shadow-sm"
+                      className="bg-red-100 text-red-700 p-3 rounded-lg hover:bg-red-200 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       aria-label="Copy phone number"
                       title="Copy phone number"
                     >
@@ -181,7 +181,7 @@ function SellerInfo() {
                       </svg>
                     </button>
                     {copied && (
-                      <span className="absolute right-0 top-0 mt-12 mr-4 text-sm text-green-600 font-medium animate-fade-in">
+                      <span className="absolute right-0 top-0 mt-12 mr-4 text-sm text-red-600 font-medium animate-pulse">
                         Copied!
                       </span>
                     )}
@@ -211,10 +211,10 @@ function SellerInfo() {
 
           {/* Seller Products Section */}
           <div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+            <h3 className="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-4 text-center">
               Products by {sellerInfo.name || "Seller"}
             </h3>
-            <hr className="border-gray-300 mb-6" />
+            <hr className="border-red-200 mb-6" />
             {sellerProducts && sellerProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {sellerProducts.map((product) => (
@@ -224,23 +224,24 @@ function SellerInfo() {
                     className="block transition-transform duration-300 hover:scale-105"
                   >
                     <Card
-                      productName={product.productName}
-                      imgPath={product.imageUrl}
-                      description={product.description}
-                      sellerName={product.sellerName}
-                      price={product.price}
+                      productName={product.productName || "Untitled Product"}
+                      imgPath={product.imageUrl || "https://via.placeholder.com/300"}
+                      description={product.description || "No description available"}
+                      sellerName={product.seller_id || "Unknown Seller"}
+                      price={product.price || "N/A"}
+                      category={product.category || "Stationary"}
                     />
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-xl shadow-md">
+              <div className="text-center py-16 bg-white rounded-2xl shadow-xl border border-red-200 transition-all duration-300 hover:shadow-2xl">
                 <p className="text-gray-600 text-lg mb-4">
                   No products available from this seller.
                 </p>
                 <Link
                   to="/"
-                  className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 hover:scale-105 transition-all duration-300"
+                  className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                   <svg
                     className="w-5 h-5"
