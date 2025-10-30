@@ -5,7 +5,9 @@ import './index.css'
 import { Provider } from 'react-redux'
 import store from './Store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import {Protected,Home,Login,Signup,MyStore,Product,PushProduct,EditProduct,Cart,SellerInfo} from "./tools.jsx"
+import {Protected,Home,Login,Signup,MyStore,Product,PushProduct,EditProduct,Cart,SellerInfo, PageNotFound,About,ComingSoon,TermsOfServices,PrivacyPolicy,FAQ,Contact} from "./tools.jsx"
+
+
 
 const router = createBrowserRouter([
   {
@@ -83,7 +85,43 @@ const router = createBrowserRouter([
                 <SellerInfo/>
             </Protected>
           )
-        }
+        },
+        {
+          path: "/about",
+          element: (
+            <About/>
+          )
+        },
+         {
+          path: "/privacy",
+          element: (
+            <PrivacyPolicy/>
+          )
+        },
+        {
+          path: "/terms",
+          element: (
+            <TermsOfServices/>
+          )
+        },
+       {
+        path:"/faqs",
+        element:(
+            <FAQ/>
+        )
+      },
+      {
+        path:"/contact",
+        element:(
+          <Contact/>
+        )
+      },
+      {
+        path:"*",
+        element:(
+            <PageNotFound/>
+        )
+      }
     ],
 },
 ])
