@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Auth } from "./Database/Auth.js";
 import Footer from "./Component/Footer.jsx";
 import Header from "./Component/Header.jsx";
-import { Outlet } from "react-router-dom";
+import { Outlet,ScrollRestoration } from "react-router-dom";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -37,6 +37,7 @@ function App() {
         </div>
       ) : (
         <>
+          <ScrollRestoration />
           <Header />
           <main className="flex-grow container mx-auto px-4 py-16">
             <Outlet />
