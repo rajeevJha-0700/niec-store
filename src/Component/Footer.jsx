@@ -1,15 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 function Footer() {
-  const [email, setEmail] = useState("");
-
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    alert(`Subscribed with: ${email}`);
-    setEmail("");
-  };
-
   const footerLinks = [
     {
       title: "Shop",
@@ -25,15 +16,12 @@ function Footer() {
       links: [
         { name: "Contact Us", path: "/contact" },
         { name: "FAQs", path: "/faqs" },
-        { name: "Returns", path: "/returns" },
-        { name: "Shipping", path: "/shipping" },
       ],
     },
     {
       title: "Company",
       links: [
         { name: "About Us", path: "/about" },
-        { name: "Careers", path: "/careers" },
         { name: "Privacy Policy", path: "/privacy" },
         { name: "Terms of Service", path: "/terms" },
       ],
@@ -43,22 +31,22 @@ function Footer() {
   const socialLinks = [
     {
       name: "Twitter",
-      path: "https://twitter.com",
+      path: "/x",
       icon: "M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z",
     },
     {
       name: "Facebook",
-      path: "https://facebook.com",
+      path: "/facebook",
       icon: "M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z",
     },
     {
       name: "Instagram",
-      path: "https://instagram.com",
+      path: "/instagram",
       icon: "M16.5 3h-9A4.5 4.5 0 003 7.5v9A4.5 4.5 0 007.5 21h9a4.5 4.5 0 004.5-4.5v-9A4.5 4.5 0 0016.5 3zm-4.5 15a6 6 0 110-12 6 6 0 010 12zm6-10.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z",
     },
     {
       name: "LinkedIn",
-      path: "https://linkedin.com",
+      path: "/linkedin",
       icon: "M16 8a6 6 0 00-6 6v7h-4v-7a10 10 0 010-20h4v7a6 6 0 006 6z",
     },
   ];
@@ -70,7 +58,7 @@ function Footer() {
           {/* Brand Section */}
           <div>
             <h3 className="text-2xl font-serif font-bold text-red-500 mb-4">NEVEROLD</h3>
-            <p className="text-gray-300 mb-4">Find what seniors have</p>
+            <p className="text-gray-300 mb-4">Buy, sell, and keep it alive</p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
                 <a
