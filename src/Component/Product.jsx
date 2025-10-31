@@ -48,12 +48,12 @@ function Product() {
 
   async function handleAdd() {
     dispatch(addToCart(id));
-    await cart.addInUserCart(u_id, productData);
+    await cart.addInUserCart(u_id,id);
   }
 
   async function handleRemove() {
     dispatch(removeFromCart(id));
-    await cart.removeFromUserCart(u_id, productData);
+    await cart.removeFromUserCart(u_id,id);
   }
 
   return (
