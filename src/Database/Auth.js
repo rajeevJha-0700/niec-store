@@ -11,12 +11,7 @@ class AuthService {
   if(data){
     const u_id = data.user.id;
     const{error} = await master.from("users").insert([{id:u_id,name:name,email:email,phone:phone,password:password}])
-    if(!error){
-      const {error} = await master.from("carts").insert([{cart_id:u_id}]);
-      if(error){
-        console.log("cartERR...",error);
-      }
-    }
+    if(error) return error;
     return data 
   }else{
     console.error("user can't be created : ",error);
