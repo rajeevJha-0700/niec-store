@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { warehouse } from "../Database/Warehouse";
+import { Auth } from "../Database/Auth";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import Input from "./Input";
@@ -20,9 +21,18 @@ function PushProduct({ ProductObject }) {
 
   const userData = useSelector((state) => state.authorization.userData);
   const u_id = userData?.data?.user_metadata?.sub;
-
+   //fetching verification status
+   const verificationStatusOfSeller = async()=>{
+      const status = await Auth.getSellerInfo(u_id);
+      return status;
+   }
   const goodsInclusion = async (data) => {
+   
+    const status = await verificationStatusOfSeller();
+   
+
     try {
+      //update product
       const fileName = data.image[0]?.name + "-" + Date.now();
       if (ProductObject && Object.keys(ProductObject).length > 0) {
         console.log("Updation initiated");
@@ -37,6 +47,7 @@ function PushProduct({ ProductObject }) {
             imageUrl: publicUrl,
             description: data.description,
             category: data.category,
+            verifiedProduct:status.isVerified
           });
           if (error) {
             console.error("Problem while updating the product (ERR): ", error);
@@ -47,6 +58,7 @@ function PushProduct({ ProductObject }) {
           console.warn("DB RESPONSE FAILED");
         }
       } else {
+        //add product
         const response = await warehouse.uploadFile(fileName, data.image[0]);
         if (response) {
           const { data: publicUrlData } = warehouse.getPublicUrl(fileName);
@@ -58,6 +70,7 @@ function PushProduct({ ProductObject }) {
             description: data.description,
             category: data.category,
             seller_id: u_id,
+            verifiedProduct:status.isVerified
           });
           if (error) {
             console.error("ERROR...", error);

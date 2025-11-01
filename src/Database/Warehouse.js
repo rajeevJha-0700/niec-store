@@ -1,9 +1,9 @@
 import { master } from "./Master.js";
 
 class Warehouse {
-   contributeToStore = async ({productName,price,seller_id,imageUrl,description,category})=>{
+   contributeToStore = async ({productName,price,seller_id,imageUrl,description,category,verifiedProduct})=>{
     try {
-        return await master.from("products").insert([{productName:productName,price:price,seller_id:seller_id,imageUrl:imageUrl,description:description,category:category}]);
+        return await master.from("products").insert([{productName:productName,price:price,seller_id:seller_id,imageUrl:imageUrl,description:description,category:category,verifiedProduct}]);
     } catch (error) {
         console.error("error in product contribution(wJS)....",error)
     }
@@ -35,11 +35,11 @@ class Warehouse {
     }
    }
 
-   updateInProduct = async({productName,price,pid,imageUrl,description,category})=>{
+   updateInProduct = async({productName,price,pid,imageUrl,description,category,verifiedProduct})=>{
     try {
         return await master
                 .from('products')
-                .update([{productName:productName,price:price,imageUrl:imageUrl,description:description,category:category}])
+                .update([{productName:productName,price:price,imageUrl:imageUrl,description:description,category:category,verifiedProduct:verifiedProduct}])
                 .eq('pid', pid)
                 
     } catch (error) {
@@ -58,7 +58,6 @@ class Warehouse {
    uploadFile = async(filepath,file)=>{
        try {
         const {data,error} = await master.storage.from("Warehouse").upload(`productsImage/${filepath}`,file,{upsert:true});
-        console.log("the file has been successfully uploaded , data received is ,",data);
         if(error) console.log("error in uploading the file,",error)
         return data;
        } catch (error) {

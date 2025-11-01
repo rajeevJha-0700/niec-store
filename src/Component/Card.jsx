@@ -1,8 +1,18 @@
+// src/components/Card.jsx
 import { useState } from "react";
 
-function Card({ imgPath, description, sellerName, price, productName }) {
+function Card({ 
+  imgPath, 
+  description, 
+  sellerName, 
+  price, 
+  productName, 
+  isVerified = "false"  
+}) {
   const [isHovered, setIsHovered] = useState(false);
-
+  
+  const bool = isVerified.toLowerCase() === "true" ? true : false;
+ 
   return (
     <div
       className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform ${
@@ -18,6 +28,8 @@ function Card({ imgPath, description, sellerName, price, productName }) {
           alt={productName || "Product"}
           className="w-full h-48 sm:h-56 object-cover"
         />
+
+        {/* "New" Badge */}
         <div
           className={`absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full transition-all duration-300 ${
             isHovered ? "scale-110" : "scale-100"
@@ -25,6 +37,28 @@ function Card({ imgPath, description, sellerName, price, productName }) {
         >
           New
         </div>
+
+        {/* Verified Seller Tag */}
+        {bool && (
+          <div
+            className={`absolute top-2 left-2 flex items-center gap-1 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded-full transition-all duration-300 ${
+              isHovered ? "scale-110" : "scale-100"
+            }`}
+          >
+            <svg
+              className="w-3 h-3"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Verified
+          </div>
+        )}
       </div>
 
       {/* Product Details */}
@@ -36,7 +70,9 @@ function Card({ imgPath, description, sellerName, price, productName }) {
           {description || "No description available"}
         </p>
         <div className="flex justify-between items-center mt-3">
-          <span className="text-gray-500 text-sm truncate">{sellerName || "Unknown Seller"}</span>
+          <span className="text-gray-500 text-sm truncate">
+            {sellerName || "Unknown Seller"}
+          </span>
           <span className="text-red-600 font-semibold text-lg">
             ₹{price ? parseFloat(price).toFixed(2) : "N/A"}
           </span>

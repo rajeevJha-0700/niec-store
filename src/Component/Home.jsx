@@ -94,6 +94,7 @@ function Home() {
               to={`/product/${product.seller_id}/${product.pid}`}
               className="block transition-transform duration-300 hover:scale-105"
             >
+             
               <Card
                 productName={product.productName}
                 imgPath={product.imageUrl}
@@ -101,6 +102,7 @@ function Home() {
                 sellerName={product.seller_id}
                 price={product.price}
                 category={product.category}
+                isVerified = {product.verifiedProduct}
               />
             </Link>
           ))}

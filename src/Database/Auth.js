@@ -64,7 +64,7 @@ class AuthService {
   getSellerInfo = async(seller_id) => {
   const { data, error } = await master
     .from("users")
-    .select("name,email,phone")
+    .select("name,email,phone,isVerified")
     .eq("id", seller_id)
     .single();
 
